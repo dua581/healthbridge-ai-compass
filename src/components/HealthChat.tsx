@@ -45,7 +45,7 @@ export function HealthChat() {
         </div>
         <div>
           <div className="font-semibold text-foreground">AI Health Assistant</div>
-          <div className="text-xs text-muted-foreground">Powered by OpenRouter · Mistral 7B</div>
+          <div className="text-xs text-muted-foreground">Powered by OpenAI · GPT-3.5 Turbo</div>
         </div>
       </div>
 
