@@ -45,7 +45,7 @@ export function HealthChat() {
         </div>
         <div>
           <div className="font-semibold text-foreground">AI Health Assistant</div>
-          <div className="text-xs text-muted-foreground">Powered by Google Gemini 2.0 Flash</div>
+          <div className="text-xs text-muted-foreground">Powered by Groq · Llama 3 8B</div>
         </div>
       </div>
 
