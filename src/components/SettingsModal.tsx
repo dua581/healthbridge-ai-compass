@@ -25,17 +25,17 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
           </button>
         </div>
         <label className="mb-2 block text-sm font-medium text-foreground">
-          OpenRouter API Key
+          OpenAI API Key
         </label>
         <input
           type="password"
           value={key}
           onChange={(e) => setKey(e.target.value)}
-          placeholder="sk-or-..."
+          placeholder="sk-..."
           className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
         />
         <p className="mt-2 text-xs text-muted-foreground">
-          Stored locally in your browser. Get one at openrouter.ai/keys
+          Stored locally in your browser. Get one at platform.openai.com/api-keys
         </p>
         <button
           onClick={() => {
