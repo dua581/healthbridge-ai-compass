@@ -14,7 +14,7 @@ export interface HealthReport {
 
 const REPORTS_KEY = "hb_reports";
 const SEEDED_KEY = "hb_seeded";
-const API_KEY_KEY = "openai_api_key";
+const API_KEY_KEY = "gemini_api_key";
 const ROLE_KEY = "hb_role";
 
 const SEED: HealthReport[] = [

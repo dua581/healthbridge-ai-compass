@@ -1,6 +1,6 @@
 import { getApiKey } from "./healthStorage";
 
-const OPENAI_API_KEY_PLACEHOLDER = "YOUR_API_KEY_HERE";
+const GEMINI_API_KEY_PLACEHOLDER = "YOUR_API_KEY_HERE";
 const SYSTEM_PROMPT =
   "You are HealthBridge AI, a compassionate public health assistant. Help users understand symptoms, suggest when to seek medical care, and provide wellness advice aligned with SDG 3 (Good Health & Well-being). Always recommend consulting a real doctor for serious conditions.";
 
@@ -10,27 +10,37 @@ export interface ChatMessage {
 }
 
 export async function callAI(messages: ChatMessage[]): Promise<string> {
-  const key = getApiKey() || OPENAI_API_KEY_PLACEHOLDER;
+  const key = getApiKey() || GEMINI_API_KEY_PLACEHOLDER;
   if (!key || key === "YOUR_API_KEY_HERE") {
-    throw new Error("Please add your OpenAI API key in Settings.");
+    throw new Error("Please add your Gemini API key in Settings.");
   }
 
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${key}`,
+  const contents = messages
+    .filter((m) => m.role !== "system")
+    .map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(key)}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents,
+      }),
     },
-    body: JSON.stringify({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-    }),
-  });
+  );
 
   if (!res.ok) {
     const t = await res.text();
-    throw new Error(`AI error: ${res.status} ${t.slice(0, 120)}`);
+    throw new Error(`AI error: ${res.status} ${t.slice(0, 160)}`);
   }
   const data = await res.json();
-  return data.choices?.[0]?.message?.content || "No response.";
+  return (
+    data.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text).join("") ||
+    "No response."
+  );
 }
