@@ -22,7 +22,7 @@ export async function callAI(messages: ChatMessage[]): Promise<string> {
       Authorization: `Bearer ${key}`,
     },
     body: JSON.stringify({
-      model: "llama3-8b-8192",
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         ...messages.filter((m) => m.role !== "system"),
