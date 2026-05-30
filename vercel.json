@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "builds": [
+  "functions": {
+    "api/index.ts": {
+      "runtime": "nodejs22.x"
+    }
+  },
+  "routes": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build"
+      "src": "/(.*)",
+      "dest": "/api/index.ts"
     }
   ]
 }
