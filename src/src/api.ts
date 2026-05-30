@@ -1,3 +1,5 @@
-import server from "./server";
+import { createRequestHandler } from "@tanstack/react-start/server";
 
-export default server.fetch;
+export default createRequestHandler({
+  build: () => import("../dist/server/server.js"),
+});
